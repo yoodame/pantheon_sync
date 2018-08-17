@@ -152,7 +152,7 @@ jobs:
 
             - run:
                 name: Push back to github
-                command: git remote -v
+                command: ./.circleci/scripts/pantheon/01-push-to-github
 
 workflows:
   version: 2
