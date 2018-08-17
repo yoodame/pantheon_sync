@@ -134,7 +134,7 @@ jobs:
         <<: *defaults
         steps:
             - checkout
-            -run:
+            - run:
                 name: Push back to github
                 command: echo 'I will do that'
 
