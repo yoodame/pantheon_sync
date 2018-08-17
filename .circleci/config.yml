@@ -42,44 +42,44 @@ jobs:
     build:
         <<: *defaults
         steps:
-            # - checkout
+            - checkout
 
-            # - restore_cache:
-            #     keys:
-            #         - composer-cache
-            #         - terminus-install
+            - restore_cache:
+                keys:
+                    - composer-cache
+                    - terminus-install
 
-            # - run:
-            #     # Set TERMINUS_ENV and related environment variables.
-            #     # https://github.com/pantheon-systems/docker-build-tools-ci/blob/1.x/scripts/set-environment
-            #     name: environment
-            #     command: /build-tools-ci/scripts/set-environment
+            - run:
+                # Set TERMINUS_ENV and related environment variables.
+                # https://github.com/pantheon-systems/docker-build-tools-ci/blob/1.x/scripts/set-environment
+                name: environment
+                command: /build-tools-ci/scripts/set-environment
 
-            # - run:
-            #     name: run composer install to get the vendor directory
-            #     command: composer install
+            - run:
+                name: run composer install to get the vendor directory
+                command: composer install
 
-            # - save_cache:
-            #     key: composer-cache
-            #     paths:
-            #         - $HOME/.composer/cache
+            - save_cache:
+                key: composer-cache
+                paths:
+                    - $HOME/.composer/cache
 
-            # - save_cache:
-            #     key: terminus-install
-            #     paths:
-            #         - $(TERMINUS_PLUGINS_DIR:-~/.terminus/plugins)
+            - save_cache:
+                key: terminus-install
+                paths:
+                    - $(TERMINUS_PLUGINS_DIR:-~/.terminus/plugins)
 
-            # - run:
-            #     name: lint php code for syntax errors
-            #     command: composer -n lint
+            - run:
+                name: lint php code for syntax errors
+                command: composer -n lint
 
-            # - run:
-            #     name: check coding standards
-            #     command: composer -n code-sniff
+            - run:
+                name: check coding standards
+                command: composer -n code-sniff
 
-            # - run:
-            #     name: run unit tests
-            #     command: composer -n unit-test
+            - run:
+                name: run unit tests
+                command: composer -n unit-test
 
     build_deploy_and_test:
         <<: *defaults
@@ -130,10 +130,11 @@ jobs:
                 name: remove transient test fixtures
                 command: ./.circleci/scripts/pantheon/09-cleanup-fixtures
     
-    deploy:
+    build_deploy:
         <<: *defaults
         steps:
             - checkout
+
             - run:
                 # Set TERMINUS_ENV and related environment variables.
                 # https://github.com/pantheon-systems/docker-build-tools-ci/blob/1.x/scripts/set-environment
@@ -143,10 +144,12 @@ jobs:
             - run:
                 name: deploy to pantheon.
                 command: ./.circleci/scripts/pantheon/01-push-to-pantheon
+
     push_back:
         <<: *defaults
         steps:
             - checkout
+
             - run:
                 name: Push back to github
                 command: git remote -v
@@ -155,7 +158,7 @@ workflows:
   version: 2
   build_and_test:
     jobs:
-        - deploy
+        - build_deploy
     #   # Install dev dependencies and do simple tests (sniff, unit tests, etc.)
     #   - build
     #   # Build deploy and test on target platform
