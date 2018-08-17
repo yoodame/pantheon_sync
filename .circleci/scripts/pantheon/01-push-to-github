@@ -5,12 +5,15 @@ set -eo pipefail
 # Log in via Terminus
 terminus -n auth:login --machine-token="$TERMINUS_TOKEN"
 
+# Switch connection mode to Git
+terminus connection:set $TERMINUS_SITE.dev git
+
 # Add pantheon git remote
 PANTHEON_REPO=$(terminus connection:info $TERMINUS_SITE.dev --field=git_url)
-git remote add pantheon $PANTHEON_REPO
+yes | git remote add pantheon $PANTHEON_REPO
 
 # Push code to Pantheon
-git fetch pantheon
+yes | git fetch pantheon
 git pull pantheon --all
 git pull pantheon --tags
 git push origin -all
