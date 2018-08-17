@@ -31,6 +31,6 @@ git push --force pantheon $CIRCLE_BRANCH
 git remote remove pantheon
 
 # Run updatedb on the dev environment
-terminus -n env:wake "$TERMINUS_SITE.dev"
-terminus -n drush $TERMINUS_SITE.dev -- updatedb --yes
-terminus -n drush $TERMINUS_SITE.dev -- cc all --yes
+# terminus -n env:wake "$TERMINUS_SITE.dev"
+# terminus -n drush $TERMINUS_SITE.dev -- updatedb --yes
+# terminus -n drush $TERMINUS_SITE.dev -- cc all --yes
