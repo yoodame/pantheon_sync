@@ -136,7 +136,7 @@ jobs:
             - checkout
             - run:
                 name: Push back to github
-                command: echo 'I will do that'
+                command: git remote -v
 
 workflows:
   version: 2

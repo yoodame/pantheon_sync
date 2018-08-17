@@ -1,0 +1,11 @@
+#!/bin/bash
+
+CIRCLE_API_USER_TOKEN=5f046b7165077b029b14f287676982def58491f4
+VCS=github
+ORG=yoodame
+REPO=pantheon_sync
+BRANCH=master
+
+curl -u ${CIRCLE_API_USER_TOKEN}: \
+     -d build_parameters[CIRCLE_JOB]=push_back \
+     https://circleci.com/api/v1.1/project/${VCS}/${ORG}/${REPO}/tree/${BRANCH}
