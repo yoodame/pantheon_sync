@@ -130,15 +130,19 @@ jobs:
                 name: remove transient test fixtures
                 command: ./.circleci/scripts/pantheon/09-cleanup-fixtures
 
-    # TODO:
-    # 04-merge-master
-    # 09-cleanup-fixtures
+    push_back
+        <<: *defaults
+        steps:
+            - checkout
+            -run:
+                name: Push back to github
+                command: echo 'I will do that'
 
 workflows:
   version: 2
   build_and_test:
     jobs:
-      # Install dev dependencies and do simple tests (sniff, unit tests, etc.)
-      - build
-      # Build deploy and test on target platform
-      - build_deploy_and_test
+    #   # Install dev dependencies and do simple tests (sniff, unit tests, etc.)
+    #   - build
+    #   # Build deploy and test on target platform
+    #   - build_deploy_and_test
