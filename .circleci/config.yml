@@ -130,7 +130,7 @@ jobs:
                 name: remove transient test fixtures
                 command: ./.circleci/scripts/pantheon/09-cleanup-fixtures
 
-    push_back
+    push_back:
         <<: *defaults
         steps:
             - checkout
