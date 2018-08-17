@@ -42,7 +42,7 @@ jobs:
     build:
         <<: *defaults
         steps:
-            - checkout
+            # - checkout
 
             # - restore_cache:
             #     keys:
@@ -129,7 +129,20 @@ jobs:
             - run:
                 name: remove transient test fixtures
                 command: ./.circleci/scripts/pantheon/09-cleanup-fixtures
+    
+    deploy:
+        <<: *defaults
+        steps:
+            - checkout
+            - run:
+                # Set TERMINUS_ENV and related environment variables.
+                # https://github.com/pantheon-systems/docker-build-tools-ci/blob/1.x/scripts/set-environment
+                name: dependencies
+                command: /build-tools-ci/scripts/set-environment
 
+            - run:
+                name: deploy to pantheon.
+                command: ./.circleci/scripts/pantheon/01-push-to-pantheon
     push_back:
         <<: *defaults
         steps:
@@ -142,7 +155,8 @@ workflows:
   version: 2
   build_and_test:
     jobs:
-      # Install dev dependencies and do simple tests (sniff, unit tests, etc.)
-      - build
+        - deploy
+    #   # Install dev dependencies and do simple tests (sniff, unit tests, etc.)
+    #   - build
     #   # Build deploy and test on target platform
     #   - build_deploy_and_test
