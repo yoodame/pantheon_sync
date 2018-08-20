@@ -12,5 +12,3 @@ $cmd="curl -u $ci_token: \
       https://circleci.com/api/v1.1/project/github/$org/$repo/tree/$branch";
 
 exec($cmd,$result);
-
-echo print_r($result);
