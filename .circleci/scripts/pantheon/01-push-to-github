@@ -10,7 +10,7 @@ terminus connection:set $TERMINUS_SITE.dev git
 
 # Add pantheon git remote
 PANTHEON_REPO=$(terminus connection:info $TERMINUS_SITE.dev --field=git_url)
-git remote add --mirror=fetch pantheon $PANTHEON_REPO
+git remote add pantheon $PANTHEON_REPO
 
 # Push code to Pantheon
 git fetch pantheon --tags

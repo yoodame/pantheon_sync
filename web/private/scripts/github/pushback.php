@@ -1,5 +1,7 @@
 <?php
 
+echo "Started pushback to GitHub";
+
 $ci_token="5f046b7165077b029b14f287676982def58491f4";
 $org="yoodame";
 $repo="pantheon_sync";
