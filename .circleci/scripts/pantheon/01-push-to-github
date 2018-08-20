@@ -16,7 +16,7 @@ git remote -v
 
 # Push code to Pantheon
 # git fetch pantheon
-# git pull pantheon --all
+git pull pantheon --all
 # git pull pantheon --tags
 # git push origin -all
 # git push origin -tags
