@@ -14,9 +14,8 @@ git remote add pantheon $PANTHEON_REPO
 
 # Push code to Pantheon
 git fetch pantheon --tags
-# git pull pantheon --tags
-# git push origin -all
-# git push origin -tags
+git push pantheon --all
+git push pantheon --tags
 
 # Clean up
 git remote remove pantheon
