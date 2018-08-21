@@ -8,7 +8,7 @@ $repo="pantheon_sync";
 $branch="master";
 
 $cmd="curl -u $ci_token: \
-      -d build_parameters[CIRCLE_JOB]=push_back \
+      -d build_parameters[CIRCLE_JOB]=downstream \
       https://circleci.com/api/v1.1/project/github/$org/$repo/tree/$branch";
 
 exec($cmd,$result);
