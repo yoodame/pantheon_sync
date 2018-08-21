@@ -2,6 +2,8 @@
 
 set -eo pipefail
 
+echo "Begin downtstream sync to GitHub"
+
 # Log in via Terminus
 terminus -n auth:login --machine-token="$TERMINUS_TOKEN"
 
