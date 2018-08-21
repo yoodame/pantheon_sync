@@ -79,7 +79,7 @@ workflows:
             - build:
                 filters:
                     tags:
-                        only: /^pantheon_(test|live)_([0-9]+)
+                        only: /^pantheon_.*/
                     branches:
                         ignore: /.*/
 
