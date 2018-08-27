@@ -82,7 +82,7 @@ workflows:
   #   jobs:
   #     - build
   # Will only deploy pantheon tags.
-  test-and-deploy:
+  build_and_test:
     jobs:
       - build:
       - test:

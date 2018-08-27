@@ -8,4 +8,4 @@ Testing
 
 Let's test pushing tags to pantheon
 
-Testing out sync with dev
+Testing out sync with dev Testing out sync with dev
