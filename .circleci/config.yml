@@ -38,49 +38,57 @@ defaults: &defaults
 
 version: 2
 jobs:  
-    build:
-        <<: *defaults
-        steps:
-            - checkout
+  test:
+    <<: *defaults
+    steps:
+      - checkout
+      - run:
+        name: test code
+        command: echo "testing your code"
+        
+  build:
+    <<: *defaults
+    steps:
+      - checkout
 
-            - run:
-                # Set TERMINUS_ENV and related environment variables.
-                # https://github.com/pantheon-systems/docker-build-tools-ci/blob/1.x/scripts/set-environment
-                name: dependencies
-                command: /build-tools-ci/scripts/set-environment
+      - run:
+        # Set TERMINUS_ENV and related environment variables.
+        # https://github.com/pantheon-systems/docker-build-tools-ci/blob/1.x/scripts/set-environment
+        name: dependencies
+        command: /build-tools-ci/scripts/set-environment
 
-            - run:
-                name: build to pantheon.
-                command: ./.circleci/scripts/pantheon/01-push-to-pantheon
+      - run:
+        name: build to pantheon.
+        command: ./.circleci/scripts/pantheon/01-push-to-pantheon
 
     downstream:
-        <<: *defaults
-        steps:
-            - checkout
+      <<: *defaults
+      steps:
+        - checkout
 
-            - run:
-                # Set TERMINUS_ENV and related environment variables.
-                # https://github.com/pantheon-systems/docker-build-tools-ci/blob/1.x/scripts/set-environment
-                name: dependencies
-                command: /build-tools-ci/scripts/set-environment
+        - run:
+          # Set TERMINUS_ENV and related environment variables.
+          # https://github.com/pantheon-systems/docker-build-tools-ci/blob/1.x/scripts/set-environment
+          name: dependencies
+          command: /build-tools-ci/scripts/set-environment
 
-            - run:
-                name: Push back to github
-                command: ./.circleci/scripts/pantheon/02-push-to-github
+        - run:
+          name: Push back to github
+          command: ./.circleci/scripts/pantheon/02-push-to-github
 
 workflows:
-    version: 2
-    build_and_test:
-        jobs:
-            - build
-    # Will only deploy pantheon tags.
-    deploy:
-        jobs:
-            - build:
-                filters:
-                    tags:
-                        only: /^pantheon_.*/
-                    branches:
-                        ignore: /.*/
+  version: 2
+  # build_and_test:
+  #   jobs:
+  #     - build
+  # Will only deploy pantheon tags.
+  test-and-deploy:
+    jobs:
+      - test:
+        filters:
+          tags:
+            only: /.*/
+          branches:
+            ignore: /.*/
 
                     
