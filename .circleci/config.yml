@@ -84,7 +84,7 @@ workflows:
   # Will only deploy pantheon tags.
   build_and_test:
     jobs:
-      - build:
+      - build
       - test:
         requires:
           - build
