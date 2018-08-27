@@ -37,15 +37,7 @@ defaults: &defaults
     TERM: dumb
 
 version: 2
-jobs:  
-  test:
-    <<: *defaults
-    steps:
-      - checkout
-      - run:
-        name: test code
-        command: echo "testing your code"
-        
+jobs: 
   build:
     <<: *defaults
     steps:
@@ -57,24 +49,32 @@ jobs:
         name: dependencies
         command: /build-tools-ci/scripts/set-environment
 
+      # - run:
+      #   name: build to pantheon.
+      #   command: ./.circleci/scripts/pantheon/01-push-to-pantheon
+ 
+  test:
+    <<: *defaults
+    steps:
       - run:
-        name: build to pantheon.
-        command: ./.circleci/scripts/pantheon/01-push-to-pantheon
+        name: test code
+        command: echo "testing your code"
 
-    downstream:
-      <<: *defaults
-      steps:
-        - checkout
+  
+  downstream:
+    <<: *defaults
+    steps:
+      - checkout
 
-        - run:
-          # Set TERMINUS_ENV and related environment variables.
-          # https://github.com/pantheon-systems/docker-build-tools-ci/blob/1.x/scripts/set-environment
-          name: dependencies
-          command: /build-tools-ci/scripts/set-environment
+      - run:
+        # Set TERMINUS_ENV and related environment variables.
+        # https://github.com/pantheon-systems/docker-build-tools-ci/blob/1.x/scripts/set-environment
+        name: dependencies
+        command: /build-tools-ci/scripts/set-environment
 
-        - run:
-          name: Push back to github
-          command: ./.circleci/scripts/pantheon/02-push-to-github
+      - run:
+        name: Push back to github
+        command: ./.circleci/scripts/pantheon/02-push-to-github
 
 workflows:
   version: 2
@@ -84,11 +84,14 @@ workflows:
   # Will only deploy pantheon tags.
   test-and-deploy:
     jobs:
+      - build:
       - test:
-        filters:
-          tags:
-            only: /.*/
-          branches:
-            ignore: /.*/
+        requires:
+          - build
+        # filters:
+        #   tags:
+        #     only: /.*/
+        #   branches:
+        #     ignore: /.*/
 
                     
