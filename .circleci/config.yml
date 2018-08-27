@@ -52,6 +52,8 @@ jobs:
     acceptance_test_1:
         <<: *defaults
         steps:
+            - checkout
+
             - run:
                 name: test code
                 command: echo "testing your code for bugs"
@@ -59,6 +61,14 @@ jobs:
     deploy:
         <<: *defaults
         steps:
+            - checkout
+
+            - run:
+                # Set TERMINUS_ENV and related environment variables.
+                # https://github.com/pantheon-systems/docker-build-tools-ci/blob/1.x/scripts/set-environment
+                name: dependencies
+                command: /build-tools-ci/scripts/set-environment
+                
             - run:
                 name: deploy to pantheon
                 command: ./.circleci/scripts/pantheon/01-push-to-pantheon
@@ -77,8 +87,11 @@ workflows:
                 filters:
                     tags:
                         only: /.*/
-            # - deploy:
-            #     requires:
-            #         - build
-            #         - acceptance_test_1
+            - deploy:
+                requires:
+                    - build
+                    - acceptance_test_1
+                filters:
+                    tags:
+                        only: /.*/
                                         
