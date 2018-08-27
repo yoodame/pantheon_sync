@@ -64,14 +64,25 @@ jobs:
             - checkout
 
             - run:
-                # Set TERMINUS_ENV and related environment variables.
-                # https://github.com/pantheon-systems/docker-build-tools-ci/blob/1.x/scripts/set-environment
                 name: dependencies
                 command: /build-tools-ci/scripts/set-environment
 
             - run:
                 name: deploy to pantheon
                 command: ./.circleci/scripts/pantheon/01-push-to-pantheon
+
+    downstream:
+        <<: *defaults
+        steps:
+            - checkout
+
+            - run:
+                name: dependencies
+                command: /build-tools-ci/scripts/set-environment
+
+            - run:
+                name: push back to github
+                command: ./.circleci/scripts/pantheon/02-push-to-github
 
 workflows:
     version: 2
