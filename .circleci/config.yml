@@ -49,17 +49,9 @@ jobs:
 				name: dependencies
                 command: /build-tools-ci/scripts/set-environment
 
-    test:
-        <<: *defaults
-        steps:
-            - run:
-                name: test code
-                command: echo "testing your code"
-
 workflows:
 	version: 2
 	build_and_test:
 		jobs:
             - build
-            - test
 										
