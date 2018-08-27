@@ -67,7 +67,7 @@ jobs:
                 name: dependencies
                 command: /build-tools-ci/scripts/set-environment
 
-            - run:
+            - deploy:
                 name: deploy to pantheon
                 command: ./.circleci/scripts/pantheon/01-push-to-pantheon
 
@@ -80,7 +80,7 @@ jobs:
                 name: dependencies
                 command: /build-tools-ci/scripts/set-environment
 
-            - run:
+            - deploy:
                 name: push back to github
                 command: ./.circleci/scripts/pantheon/02-push-to-github
 
