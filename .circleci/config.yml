@@ -71,10 +71,10 @@ workflows:
             - acceptance_test_1:
                 requires:
                     - build
-            - deploy:
-                requires:
-                    - build
-                    - acceptance_test_1
+            # - deploy:
+            #     requires:
+            #         - build
+            #         - acceptance_test_1
     tagged-build:
         jobs:
             - build:
