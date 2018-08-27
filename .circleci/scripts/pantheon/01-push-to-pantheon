@@ -1,39 +1,41 @@
 #!/bin/bash
 
-# set -eo pipefail
+set -eo pipefail
 
-# #
-# # This script starts up the test process.
-# #
-# # - Environment settings (e.g. git config) are initialized
-# # - Terminus plugins are installed
-# # - Any needed code updates are done
-# #
-# echo "Begin build for $DEFAULT_ENV. Pantheon test environment is $TERMINUS_SITE.$TERMINUS_ENV"
+#
+# This script starts up the test process.
+#
+# - Environment settings (e.g. git config) are initialized
+# - Terminus plugins are installed
+# - Any needed code updates are done
+#
+echo "Begin build for $DEFAULT_ENV. Pantheon test environment is $TERMINUS_SITE.$TERMINUS_ENV"
 
-# # Log in via Terminus
-# terminus -n auth:login --machine-token="$TERMINUS_TOKEN"
+# Log in via Terminus
+terminus -n auth:login --machine-token="$TERMINUS_TOKEN"
 
-# # Switch connection mode to Git
-# terminus connection:set $TERMINUS_SITE.dev git
+# Switch connection mode to Git
+terminus connection:set $TERMINUS_SITE.dev git
 
-# # Add pantheon git remote
-# PANTHEON_REPO=$(terminus connection:info $TERMINUS_SITE.dev --field=git_url)
-# git remote add pantheon $PANTHEON_REPO
+# Add pantheon git remote
+PANTHEON_REPO=$(terminus connection:info $TERMINUS_SITE.dev --field=git_url)
+git remote add pantheon $PANTHEON_REPO
 
-# # TODO: do better checking for new branches
+# Push code to Pantheon
+if [ -n "$CIRCLE_TAG" ]
+then
+  echo "Pushing ${CIRCLE_TAG} tag to pantheon"
+  git push --force pantheon "refs/tags/${CIRCLE_TAG}"
+elif [ -n "$CIRCLE_BRANCH" ]
+then
+  echo "Pushing ${CIRCLE_BRANCH} branch to pantheon"
+  git push --force pantheon $CIRCLE_BRANCH
+fi
 
-# # Push code to Pantheon
-# git checkout $CIRCLE_BRANCH
-# git push --force pantheon $CIRCLE_BRANCH
+# Clean up
+git remote remove pantheon
 
-# # Clean up
-# git remote remove pantheon
-
-# # Run updatedb on the dev environment
-# # terminus -n env:wake "$TERMINUS_SITE.dev"
-# # terminus -n drush $TERMINUS_SITE.dev -- updatedb --yes
-# # terminus -n drush $TERMINUS_SITE.dev -- cc all --yes
-
-echo "Testing branch: $CIRCLE_BRANCH"
-echo "Testing tag: $CIRCLE_TAG"
+# Run updatedb on the dev environment
+# terminus -n env:wake "$TERMINUS_SITE.dev"
+# terminus -n drush $TERMINUS_SITE.dev -- updatedb --yes
+# terminus -n drush $TERMINUS_SITE.dev -- cc all --yes
