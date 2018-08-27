@@ -48,7 +48,7 @@ jobs:
 				# https://github.com/pantheon-systems/docker-build-tools-ci/blob/1.x/scripts/set-environment
 				name: dependencies
                 command: /build-tools-ci/scripts/set-environment
-                
+
     test:
         <<: *defaults
         steps:
@@ -61,7 +61,5 @@ workflows:
 	build_and_test:
 		jobs:
             - build
-            - test:
-                requires:
-                    - build
+            - test
 										
