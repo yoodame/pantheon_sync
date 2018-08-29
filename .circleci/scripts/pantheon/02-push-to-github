@@ -15,9 +15,11 @@ PANTHEON_REPO=$(terminus connection:info $TERMINUS_SITE.dev --field=git_url)
 git remote add pantheon $PANTHEON_REPO
 
 # Push code to Pantheon
-git fetch pantheon --tags
-git push --force origin --all
-git push --force origin --tags
+git fetch pantheon --all
+git push origin "refs/remotes/pantheon/*:refs/heads/*"
+# git fetch pantheon --tags
+# git push --force origin --all
+# git push --force origin --tags
 
 # Clean up
 git remote remove pantheon
